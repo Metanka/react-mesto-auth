@@ -1,0 +1,18 @@
+@import url('./_hidden/element__trash_hidden.css');
+
+.element__trash {
+  background-image: url('../../../images/Trash.svg');
+  background-color: transparent;
+  border: none;
+  width: 18px;
+  height: 19.3px;
+  z-index: 2;
+  position: absolute;
+  top: 18px;
+  right: 15px;
+}
+
+.element__trash:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}

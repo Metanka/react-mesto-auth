@@ -1,0 +1,30 @@
+@import url('./_delete/popup__container_delete.css');
+@import url('./_add-img/popup__container_add-img.css');
+@import url('./_profile/popup__container_profile.css');
+@import url('./_avatar/popup_change-avatar.css');
+
+.popup__container {
+  width: 430px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 10px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@media screen and (max-width: 666px) {
+  .popup__container {
+    width: 290px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .popup__container {
+    width: 250px;
+    margin: auto;
+  }
+}

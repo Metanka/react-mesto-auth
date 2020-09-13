@@ -1,0 +1,13 @@
+.input_box {
+  width: 83%;
+  height: 44px;
+  margin: auto;
+}
+
+.input_box:last-of-type {
+  margin-top: 13px;
+}
+
+.input_box:first-of-type {
+  margin-top: 0;
+}

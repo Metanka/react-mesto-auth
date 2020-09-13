@@ -1,0 +1,23 @@
+@import url('./_place-popup/btn-close_place-popup.css');
+@import url('./_place-view/btn-close_place-view.css');
+@import url('./_delete/btn-close_delete.css');
+@import url('./_change-avatar/btn-close_change-avatar.css');
+
+.btn-close {
+  padding: 0;
+  border: none;
+  font: inherit;
+  color: inherit;
+  background-image: url('../../images/CloseIcon.svg');
+  background-color: rgba(0, 0, 0, 0);
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 40.7px;
+  height: 40.7px;
+  cursor: pointer;
+}
+
+.btn-close:hover {
+  opacity: 0.6;
+}
+

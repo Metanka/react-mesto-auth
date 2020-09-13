@@ -1,0 +1,17 @@
+.btn-close_delete {
+  position: fixed;
+  top: calc(50% - (181px / 2) - 40px);
+  left: calc(50% + (181px / 2) + 120px);
+}
+
+@media screen and (max-width: 666px) {
+  .btn-close_delete {
+    left: calc(50% + (280px / 2));;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .btn-close_delete {
+    left: calc(50% + 250px / 2 - 7px);
+  }
+}

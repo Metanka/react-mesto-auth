@@ -1,0 +1,7 @@
+.profile__title-box {
+  max-width: 470px;
+  max-height: 56px;
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 10px;
+}

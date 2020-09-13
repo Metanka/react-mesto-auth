@@ -1,0 +1,21 @@
+@import url('./_inactive/popup__btn_inactive.css');
+@import url('./_delete/popup__btn_delete.css');
+@import url('./_action_avatar/popup__btn_action_avatar.css');
+
+.popup__btn {
+  width: 83%;
+  height: 50.15px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin: auto;
+  margin-bottom: 36px;
+  margin-top: 31px;
+  padding: 0;
+}
+
+.popup__btn:hover {
+  opacity: .8;
+  cursor: pointer;
+}

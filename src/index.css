@@ -1,13 +1,18 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@import url('./vendor/normalize.css');
+@import url('./blocks/header/header.css');
+@import url('./blocks/webpage/webpage.css');
+@import url('./blocks/profile/profile.css');
+@import url('./blocks/edit-button/edit-button.css');
+@import url('./blocks/add-button/add-button.css');
+@import url('./vendor/Inter-font/Inter-font.css');
+@import url('./blocks/elements/elements.css');
+@import url('./blocks/element/element.css');
+@import url('./blocks/footer/footer.css');
+@import url('./blocks/popup/popup.css');
+@import url('./blocks/btn-close/btn-close.css');
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.App {
+  background-color: black;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  font-style: normal; 
 }

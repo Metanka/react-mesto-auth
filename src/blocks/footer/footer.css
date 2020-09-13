@@ -1,0 +1,23 @@
+@import url('./__copyright/footer__copyright.css');
+
+.footer {
+  max-width: 882px;
+  margin: auto;
+  padding-bottom: 60px;
+}
+
+@media screen and (max-width: 707px) {
+  .footer {
+    max-width: 582px;
+  }
+}
+
+@media screen and (max-width: 610px) {
+  .footer {
+    max-width: 282px;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;  
+    padding-bottom: 36px;
+  }
+}
