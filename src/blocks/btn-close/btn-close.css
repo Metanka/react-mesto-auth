@@ -2,6 +2,7 @@
 @import url('./_place-view/btn-close_place-view.css');
 @import url('./_delete/btn-close_delete.css');
 @import url('./_change-avatar/btn-close_change-avatar.css');
+@import url('./_tooltip/btn-close_tooltip.css');
 
 .btn-close {
   padding: 0;

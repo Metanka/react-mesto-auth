@@ -1,0 +1,39 @@
+.sign__input {
+  background-color: black;
+  border: none;
+  width: 100%;
+  border-bottom: 2px solid #cccccc;
+  margin-bottom: 30px;
+  padding-bottom: 13px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  color: #ffffff;
+}
+
+.sign__input::-webkit-input-placeholder {
+  color: #cccccc;
+}
+.sign__input ::-moz-placeholder {
+  color: #cccccc;
+} /* Firefox 19+ */
+
+.sign__input:-moz-placeholder {
+  color: #cccccc;
+} /* Firefox 18- */
+
+.sign__input:-ms-input-placeholder {
+  color: #cccccc;
+}
+
+.sign__input:focus {
+  box-shadow: none;
+  border-style: none;
+  color: #ffffff;
+}
+
+.sign__input:last-of-type {
+  margin-bottom: 216px;
+}

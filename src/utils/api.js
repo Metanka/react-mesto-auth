@@ -116,7 +116,3 @@ export const api = new Api({
     'Content-Type': 'application/json'
   }
 });
-// api.fetchAuthorization().then(res => {
-//   return res;
-// })
-// .catch(err => console.log(`Ошибка: ${err}`));

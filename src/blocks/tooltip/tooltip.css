@@ -1,0 +1,9 @@
+@import url('./_error/tooltip_error.css');
+@import url('./_ok/tooltip_ok.css');
+
+.tooltip {
+  width: 150px;
+  height: 150px;
+  margin-top: 60px;
+  margin-bottom: 32px;
+}

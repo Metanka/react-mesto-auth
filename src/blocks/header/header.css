@@ -1,4 +1,6 @@
 @import url('./__logo/header__logo.css');
+@import url('./__login/header__login.css');
+@import url('./__email/header__email.css');
 
 
 .header {
@@ -8,6 +10,9 @@
   margin: auto;
   padding-top: 45px;
   padding-bottom: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 @media screen and (max-width: 940px) {

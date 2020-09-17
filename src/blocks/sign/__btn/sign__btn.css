@@ -1,0 +1,17 @@
+.sign__btn {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 2px;
+  height: 50px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+}
+
+.sign__btn:hover {
+  cursor: pointer;
+  background: #ffffff;
+  opacity: 0.85;
+}

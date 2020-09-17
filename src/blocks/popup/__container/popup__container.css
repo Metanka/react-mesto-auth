@@ -2,6 +2,7 @@
 @import url('./_add-img/popup__container_add-img.css');
 @import url('./_profile/popup__container_profile.css');
 @import url('./_avatar/popup_change-avatar.css');
+@import url('./_tooltip/popup__container_tooltip.css');
 
 .popup__container {
   width: 430px;
