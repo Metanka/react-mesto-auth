@@ -13,7 +13,7 @@ import {CardsContext} from '../contexts/CardsContext';
 import Login from './Login';
 import Registration from './Registration';
 import ProtectedRoute from './ProtectedRoute';
-import {register, auth} from '../utils/auth';
+import {register, auth, tokenCheck} from '../utils/auth';
 
 
 const App = () => {
@@ -28,6 +28,7 @@ const App = () => {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [isRegister, setIsRegister] = React.useState({});
 
   React.useEffect(() => {
     //ответ 2х запросов api (информация о профиле и массив карточек)
@@ -42,7 +43,7 @@ const App = () => {
         setDataCards(data);
       })
       .catch(err => console.log(err));
-
+      
     return () => {};
   }, []);
 
@@ -116,7 +117,7 @@ const App = () => {
 
   const handleRegistrationSubmit = () => {
     setLoggedIn(true);
-    register(password, email);
+    register(password, email, setIsRegister);
   }
 
   const handleEmailChange = (value) => {
@@ -128,50 +129,62 @@ const App = () => {
   }
 
   const handleLoginSubmit = (loginEmail, loginPassword) => {
+    tokenCheck().then(data => console.log(data.email))
     if (email === loginEmail && password === loginPassword) {
       auth(password, email);
     }
   }
 
-  return (
-    <div className="App">
-      <CurrentUserContext.Provider value={{currentUser, setCurrentUser}}>
-        <CardsContext.Provider value={{dataCards, setDataCards}}>
-          <BrowserRouter>
-            <Switch>
-              <Route path="/sign-up">
-                <Registration 
-                onInputEmail={handleEmailChange} 
-                onInputPassword={handlePasswordChange} 
-                onRegistrationSubmit={handleRegistrationSubmit} />
-              </Route>
-              <Route path="/sign-in">
-                <Login />
-              </Route>
-              <ProtectedRoute exact path="/" loggedIn={loggedIn} component={Main}
-                cards={dataCards}
-                email={email}
-                onTrashClick={handleCardDelete}
-                onLikeClick={handleCardLike}
-                onCardClick={handleCardClick}
-                onEditProfile={handleEditProfileClick}
-                onAddPlace={handleAddPlaceClick}
-                onEditAvatar={handleEditAvatarClick} />
-            </Switch>
-            <Footer />
-            <EditProfilePopup isOpen={isOpenProfile} onClose={closeAllPopups} onProfileSubmit={handleProfileChange} />
-            <EditAvatarPopup isOpen={isOpenAvatar} onClose={closeAllPopups} onAvatarSubmit={handleAvatarChange} />
-            <AddPlacePopup
-              isOpen={isOpenPlace}
-              onClose={closeAllPopups}
-              onPlaceSubmit={handlePlaceSubmit}
-            />
-            <ImagePopup selectedCard={selectedCard} isOpen={isOpenImage} onClose={closeAllPopups} />
-          </BrowserRouter>
-        </CardsContext.Provider>
-      </CurrentUserContext.Provider>
-    </div>
-  );
-}
+  const handleCloseTooltip = () => {
+    setIsRegister([]);
+  }
 
-export default React.memo(App);
+    return (
+      <div className="App">
+        <CurrentUserContext.Provider value={{currentUser, setCurrentUser}}>
+          <CardsContext.Provider value={{dataCards, setDataCards}}>
+            <BrowserRouter>
+              <Switch>
+                <Route path="/sign-up">
+                  <Registration
+                    onInputEmail={handleEmailChange}
+                    onInputPassword={handlePasswordChange}
+                    onRegistrationSubmit={handleRegistrationSubmit}
+                    isRegister={isRegister}
+                    onClose={handleCloseTooltip} />
+                </Route>
+                <Route path="/sign-in">
+                  <Login
+                    onLoginSubmit={handleLoginSubmit}
+                    isLoggedIn={loggedIn}
+                  />
+                </Route>
+                <ProtectedRoute exact path="/" loggedIn={loggedIn} component={Main}
+                  cards={dataCards}
+                  email={email}
+                  onTrashClick={handleCardDelete}
+                  onLikeClick={handleCardLike}
+                  onCardClick={handleCardClick}
+                  onEditProfile={handleEditProfileClick}
+                  onAddPlace={handleAddPlaceClick}
+                  onEditAvatar={handleEditAvatarClick}
+                  setLoginIn={setLoggedIn} 
+              />
+              </Switch>
+              <Footer />
+              <EditProfilePopup isOpen={isOpenProfile} onClose={closeAllPopups} onProfileSubmit={handleProfileChange} />
+              <EditAvatarPopup isOpen={isOpenAvatar} onClose={closeAllPopups} onAvatarSubmit={handleAvatarChange} />
+              <AddPlacePopup
+                isOpen={isOpenPlace}
+                onClose={closeAllPopups}
+                onPlaceSubmit={handlePlaceSubmit}
+              />
+              <ImagePopup selectedCard={selectedCard} isOpen={isOpenImage} onClose={closeAllPopups} />
+            </BrowserRouter>
+          </CardsContext.Provider>
+        </CurrentUserContext.Provider>
+      </div>
+    );
+  }
+
+  export default React.memo(App);

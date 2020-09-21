@@ -1,18 +1,14 @@
 import React from 'react';
-import {Link, useHistory} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import Header from './Header';
 import Tooltip from './InfoTooltip';
 
 
-function Registration({onInputEmail, onInputPassword, onRegistrationSubmit}) {
-  const history = useHistory()
-  const [isOpenTooltip, setIsOpenTooltip] = React.useState(false);
+function Registration({onInputEmail, onInputPassword, onRegistrationSubmit, onClose, isRegister}) {
 
   const handleRegistrationSubmit = (e) => {
     e.preventDefault();
     onRegistrationSubmit();
-    setIsOpenTooltip(true);
-    history.push('/sign-in');
   }
 
   const handleInputEmail = (e) => {
@@ -21,10 +17,6 @@ function Registration({onInputEmail, onInputPassword, onRegistrationSubmit}) {
 
   const handleInputPassword = (e) => {
     onInputPassword(e.target.value);
-  }
-
-  const handleCloseTooltip = () => {
-    setIsOpenTooltip(false);
   }
 
   return (
@@ -38,10 +30,10 @@ function Registration({onInputEmail, onInputPassword, onRegistrationSubmit}) {
           <button className='sign__btn' type="submit">Зарегистрироваться</button>
         </form>
         <p className='sign__text'>Уже зарегистрированы?
-      <Link to="" className='sign__link'> Войти</Link>
+      <Link to="/sign-in" className='sign__link'> Войти</Link>
         </p>
       </div>
-      <Tooltip isOpen={isOpenTooltip} onClose={handleCloseTooltip} />
+      <Tooltip isRegister={isRegister} onClose={onClose} />
     </>
   );
 }

@@ -1,13 +1,23 @@
 import React from 'react';
+import {useHistory} from 'react-router-dom';
 
-function Tooltip({isOpen, onClose}) {
+function Tooltip({isRegister, onClose}) {
+  const history = useHistory();
+
+  const handleClose = () => {
+    onClose();
+    if (isRegister.success) {
+      history.push('/sign-in');
+    }
+  }
+  
   return (
     <>
-      <div className={isOpen ? 'popup popup_tooltip' : 'popup popup_tooltip popup_hidden'} >
-        <button onClick={onClose} className='btn-close btn-close_tooltip'></button>
+      <div className={Object.keys(isRegister).length !== 0 ? 'popup popup_tooltip' : 'popup popup_tooltip popup_hidden'} >
+        <button onClick={handleClose} className='btn-close btn-close_tooltip'></button>
         <div className='popup__container popup__container_tooltip' >
-          <div className='tooltip tooltip_ok' ></div>
-          <h2 className='popup__tooltip-title'>Вы успешно зарегистрировались!</h2>
+          <div className={isRegister.success ? 'tooltip tooltip_ok' : 'tooltip tooltip_error'} ></div>
+          <h2 className='popup__tooltip-title'>{isRegister.success || isRegister.fail}</h2>
         </div>
       </div>
     </>

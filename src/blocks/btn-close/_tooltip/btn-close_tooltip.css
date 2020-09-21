@@ -1,5 +1,23 @@
 .btn-close_tooltip {
   position: absolute;
   top: 170px;
-  right: 265px;
+  right: 32.5%;
+}
+
+@media screen and (max-width: 1100px) {
+  .btn-close_tooltip {
+    right: 25%;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .btn-close_tooltip {
+    right: 15%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .btn-close_tooltip {
+    right: 10%;
+  }
 }
