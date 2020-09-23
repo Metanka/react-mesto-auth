@@ -1,0 +1,13 @@
+.popup__wall {
+  position: relative;
+  margin: auto;
+  margin-top: 170px;
+  width: 500px;
+  height: 50%;
+}
+
+@media screen and (max-width: 666px) {
+  .popup__wall {
+    width: 370px;
+  }
+}

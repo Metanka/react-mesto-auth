@@ -13,6 +13,7 @@
 @import url('./_change-avatar/popup_change-avatar.css');
 @import url('./__tooltip-title/popup__tooltip-title.css');
 @import url('./_tooltip/popup_tooltip.css');
+@import url('./__wall/popup__wall.css');
 
 .popup {
   width: 100vw;

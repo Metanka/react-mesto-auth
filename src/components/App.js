@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, Switch, BrowserRouter} from 'react-router-dom';
+import {Route, Switch, BrowserRouter, Redirect} from 'react-router-dom';
 import '../index.css';
 import Main from './Main';
 import Footer from './Footer';
@@ -13,7 +13,7 @@ import {CardsContext} from '../contexts/CardsContext';
 import Login from './Login';
 import Registration from './Registration';
 import ProtectedRoute from './ProtectedRoute';
-import {register, auth, tokenCheck} from '../utils/auth';
+import {register, auth, getToken} from '../utils/auth';
 
 
 const App = () => {
@@ -43,9 +43,13 @@ const App = () => {
         setDataCards(data);
       })
       .catch(err => console.log(err));
-      
+
     return () => {};
   }, []);
+
+  React.useEffect(() => {
+    tokenCheck()
+  }, [loggedIn]);
 
   function handleEditAvatarClick() {
     setIsOpenAvatar(true);
@@ -116,8 +120,11 @@ const App = () => {
   }
 
   const handleRegistrationSubmit = () => {
-    setLoggedIn(true);
-    register(password, email, setIsRegister);
+    register(password, email, setIsRegister)
+      .then((res) => {
+        setLoggedIn(true);
+      })
+      .catch(err => console.log(err))
   }
 
   const handleEmailChange = (value) => {
@@ -128,63 +135,89 @@ const App = () => {
     setPassword(value);
   }
 
-  const handleLoginSubmit = (loginEmail, loginPassword) => {
-    tokenCheck().then(data => console.log(data.email))
-    if (email === loginEmail && password === loginPassword) {
-      auth(password, email);
+  const tokenCheck = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      getToken(token).then((res) => {
+        if (res) {
+          setLoggedIn(true);
+          setEmail(res.data.email);
+        } 
+      })
+        .catch(err => console.log(err))
     }
+  }
+
+  const handleLoginSubmit = (loginEmail, loginPassword) => {
+    auth(loginEmail, loginPassword)
+      .then(data => {
+        if (data.token) {
+          localStorage.setItem('token', data.token);
+          setLoggedIn(true);
+        }
+      })
+      .catch((err) => console.log(err));
+    tokenCheck();
   }
 
   const handleCloseTooltip = () => {
     setIsRegister([]);
   }
 
-    return (
-      <div className="App">
-        <CurrentUserContext.Provider value={{currentUser, setCurrentUser}}>
-          <CardsContext.Provider value={{dataCards, setDataCards}}>
-            <BrowserRouter>
-              <Switch>
-                <Route path="/sign-up">
-                  <Registration
-                    onInputEmail={handleEmailChange}
-                    onInputPassword={handlePasswordChange}
-                    onRegistrationSubmit={handleRegistrationSubmit}
-                    isRegister={isRegister}
-                    onClose={handleCloseTooltip} />
-                </Route>
-                <Route path="/sign-in">
-                  <Login
-                    onLoginSubmit={handleLoginSubmit}
-                    isLoggedIn={loggedIn}
-                  />
-                </Route>
-                <ProtectedRoute exact path="/" loggedIn={loggedIn} component={Main}
-                  cards={dataCards}
-                  email={email}
-                  onTrashClick={handleCardDelete}
-                  onLikeClick={handleCardLike}
-                  onCardClick={handleCardClick}
-                  onEditProfile={handleEditProfileClick}
-                  onAddPlace={handleAddPlaceClick}
-                  onEditAvatar={handleEditAvatarClick}
-                  setLoginIn={setLoggedIn} 
-              />
-              </Switch>
-              <Footer />
-              <EditProfilePopup isOpen={isOpenProfile} onClose={closeAllPopups} onProfileSubmit={handleProfileChange} />
-              <EditAvatarPopup isOpen={isOpenAvatar} onClose={closeAllPopups} onAvatarSubmit={handleAvatarChange} />
-              <AddPlacePopup
-                isOpen={isOpenPlace}
-                onClose={closeAllPopups}
-                onPlaceSubmit={handlePlaceSubmit}
-              />
-              <ImagePopup selectedCard={selectedCard} isOpen={isOpenImage} onClose={closeAllPopups} />
-            </BrowserRouter>
-          </CardsContext.Provider>
-        </CurrentUserContext.Provider>
-      </div>
-    );
+  const handleLoginOut = () => {
+    setLoggedIn(false);
+    localStorage.removeItem('token');
   }
 
-  export default React.memo(App);
+  return (
+    <div className="App">
+      <CurrentUserContext.Provider value={{currentUser, setCurrentUser}}>
+        <CardsContext.Provider value={{dataCards, setDataCards}}>
+          <BrowserRouter>
+            <Switch>
+              <Route path="/sign-up">
+                <Registration
+                  onInputEmail={handleEmailChange}
+                  onInputPassword={handlePasswordChange}
+                  onRegistrationSubmit={handleRegistrationSubmit}
+                  isRegister={isRegister}
+                  onClose={handleCloseTooltip} />
+              </Route>
+              <Route path="/sign-in">
+                <Login
+                  onLoginSubmit={handleLoginSubmit}
+                />
+              </Route>
+              <ProtectedRoute exact path="/cards" loggedIn={loggedIn} component={Main}
+                cards={dataCards}
+                email={email}
+                onTrashClick={handleCardDelete}
+                onLikeClick={handleCardLike}
+                onCardClick={handleCardClick}
+                onEditProfile={handleEditProfileClick}
+                onAddPlace={handleAddPlaceClick}
+                onEditAvatar={handleEditAvatarClick}
+                setLoginIn={setLoggedIn}
+                onLoginOut={handleLoginOut}
+              />
+              <Route path="/">
+                <Redirect to={loggedIn ? '/cards' : '/sign-in'} />
+              </Route>
+            </Switch>
+            <Footer />
+            <EditProfilePopup isOpen={isOpenProfile} onClose={closeAllPopups} onProfileSubmit={handleProfileChange} />
+            <EditAvatarPopup isOpen={isOpenAvatar} onClose={closeAllPopups} onAvatarSubmit={handleAvatarChange} />
+            <AddPlacePopup
+              isOpen={isOpenPlace}
+              onClose={closeAllPopups}
+              onPlaceSubmit={handlePlaceSubmit}
+            />
+            <ImagePopup selectedCard={selectedCard} isOpen={isOpenImage} onClose={closeAllPopups} />
+          </BrowserRouter>
+        </CardsContext.Provider>
+      </CurrentUserContext.Provider>
+    </div>
+  );
+}
+
+export default React.memo(App);

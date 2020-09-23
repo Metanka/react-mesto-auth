@@ -22,15 +22,15 @@ export const register = (password, email, callback) => {
     })
 }
 
-export const auth = (password, email) => {
+export const auth = (email, password) => {
   return fetch(`${BASE_URL}/signin`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      password,
-      email
+      email,
+      password
     })
   })
     .then(res => {
@@ -40,24 +40,20 @@ export const auth = (password, email) => {
         return Promise.reject((400 === res.status) ? `${res.status} не передано одно из полей` : `Пользователь с email не найден ${res.status}`);
       }
     })
-    .then(data => {
-      localStorage.setItem('token', data.token);
-    })
 }
 
-export const tokenCheck = () => {
+export const getToken = (token) => {
   return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorisation': `Bearer ${localStorage.getItem('token')}`
+      'Authorization': `Bearer ${token}`,
     }
   })
-    .then(res => {
+    .then((res) => {
       if (res.ok) {
         return res.json();
-      } else {
-        return Promise.reject(`Ошибка: ${res.status}`);
       }
+      return res.json().then((data) => Promise.reject(`${res.status} - ${data.error || 'токен не передан или передан не в том формате'}`));
     })
 }

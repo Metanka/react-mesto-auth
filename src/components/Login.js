@@ -2,7 +2,7 @@ import React from 'react';
 import {Link, useHistory} from 'react-router-dom';
 import Header from './Header';
 
-function Login({onLoginSubmit, isLoggedIn}) {
+function Login({onLoginSubmit, onLoginOut}) {
   const [loginEmail, setLoginEmail] = React.useState('');
   const [loginPassword, setLoginPassword] = React.useState('');
   const history = useHistory();
@@ -18,11 +18,14 @@ function Login({onLoginSubmit, isLoggedIn}) {
   const handleLoginSubmit = (e) => {
     e.preventDefault();
     onLoginSubmit(loginEmail, loginPassword);
-    if (isLoggedIn) {history.push('/')};
+    setLoginEmail('');
+    setLoginPassword('');
+    history.push('/');
   }
+
   return (
     <>
-      <Header name="Регистрация" />
+      <Header name="Регистрация"  />
       <div className="sign">
         <h1 className="sign__title">Вход</h1>
         <form onSubmit={handleLoginSubmit} className='sign__form'>

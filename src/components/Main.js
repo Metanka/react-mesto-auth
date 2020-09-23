@@ -5,7 +5,7 @@ import Header from './Header';
 
 
 
-const Main = ({onEditProfile, onAddPlace, onEditAvatar, onCardClick, onTrashClick, onLikeClick, cards, email, setLoginIn}) => {
+const Main = ({onEditProfile, onAddPlace, onEditAvatar, onCardClick, onTrashClick, onLikeClick, cards, email, setLoginIn, onLoginOut}) => {
   const {currentUser} = React.useContext(CurrentUserContext);
   const [userName, setUserName] = React.useState('');
   const [userDescription, setUserDescription] = React.useState('');
@@ -19,7 +19,7 @@ const Main = ({onEditProfile, onAddPlace, onEditAvatar, onCardClick, onTrashClic
 
   return (
     <>
-      <Header name="Выйти" email={email} setLoginIn={setLoginIn} />
+      <Header name="Выйти" email={email} onLoginOut={onLoginOut} />
       <section className="profile">
         <div className="profile__box"  onClick={onEditAvatar}>
           <img
