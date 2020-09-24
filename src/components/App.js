@@ -15,6 +15,7 @@ import Registration from './Registration';
 import ProtectedRoute from './ProtectedRoute';
 import {register, auth, getToken} from '../utils/auth';
 
+const token = localStorage.getItem('token');
 
 const App = () => {
   // переменные состояния открытия
@@ -25,7 +26,7 @@ const App = () => {
   const [selectedCard, setSelectedCard] = React.useState({});
   const [currentUser, setCurrentUser] = React.useState({});
   const [dataCards, setDataCards] = React.useState([]);
-  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [loggedIn, setLoggedIn] = React.useState(!!token);
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [isRegister, setIsRegister] = React.useState({});
@@ -140,9 +141,9 @@ const App = () => {
     if (token) {
       getToken(token).then((res) => {
         if (res) {
-          setLoggedIn(true);
           setEmail(res.data.email);
-        } 
+          setLoggedIn(true);
+        }
       })
         .catch(err => console.log(err))
     }
@@ -188,7 +189,11 @@ const App = () => {
                   onLoginSubmit={handleLoginSubmit}
                 />
               </Route>
-              <ProtectedRoute exact path="/cards" loggedIn={loggedIn} component={Main}
+              <ProtectedRoute
+                exact
+                path="/"
+                loggedIn={loggedIn}
+                component={Main}
                 cards={dataCards}
                 email={email}
                 onTrashClick={handleCardDelete}
@@ -197,11 +202,10 @@ const App = () => {
                 onEditProfile={handleEditProfileClick}
                 onAddPlace={handleAddPlaceClick}
                 onEditAvatar={handleEditAvatarClick}
-                setLoginIn={setLoggedIn}
                 onLoginOut={handleLoginOut}
               />
-              <Route path="/">
-                <Redirect to={loggedIn ? '/cards' : '/sign-in'} />
+              <Route>
+                {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
               </Route>
             </Switch>
             <Footer />

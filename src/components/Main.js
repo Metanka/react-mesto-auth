@@ -5,7 +5,7 @@ import Header from './Header';
 
 
 
-const Main = ({onEditProfile, onAddPlace, onEditAvatar, onCardClick, onTrashClick, onLikeClick, cards, email, setLoginIn, onLoginOut}) => {
+const Main = ({onEditProfile, onAddPlace, onEditAvatar, onCardClick, onTrashClick, onLikeClick, cards, email, onLoginOut}) => {
   const {currentUser} = React.useContext(CurrentUserContext);
   const [userName, setUserName] = React.useState('');
   const [userDescription, setUserDescription] = React.useState('');
