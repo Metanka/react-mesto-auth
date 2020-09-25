@@ -18,8 +18,6 @@ function Login({onLoginSubmit, onLoginOut}) {
   const handleLoginSubmit = (e) => {
     e.preventDefault();
     onLoginSubmit(loginEmail, loginPassword);
-    setLoginEmail('');
-    setLoginPassword('');
     history.push('/');
   }
 

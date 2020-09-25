@@ -155,10 +155,10 @@ const App = () => {
         if (data.token) {
           localStorage.setItem('token', data.token);
           setLoggedIn(true);
+          tokenCheck();
         }
       })
       .catch((err) => console.log(err));
-    tokenCheck();
   }
 
   const handleCloseTooltip = () => {
@@ -168,6 +168,7 @@ const App = () => {
   const handleLoginOut = () => {
     setLoggedIn(false);
     localStorage.removeItem('token');
+    setEmail('');
   }
 
   return (
@@ -176,34 +177,38 @@ const App = () => {
         <CardsContext.Provider value={{dataCards, setDataCards}}>
           <BrowserRouter>
             <Switch>
-              <Route path="/sign-up">
-                <Registration
-                  onInputEmail={handleEmailChange}
-                  onInputPassword={handlePasswordChange}
-                  onRegistrationSubmit={handleRegistrationSubmit}
-                  isRegister={isRegister}
-                  onClose={handleCloseTooltip} />
-              </Route>
-              <Route path="/sign-in">
-                <Login
-                  onLoginSubmit={handleLoginSubmit}
-                />
-              </Route>
-              <ProtectedRoute
-                exact
-                path="/"
-                loggedIn={loggedIn}
-                component={Main}
-                cards={dataCards}
-                email={email}
-                onTrashClick={handleCardDelete}
-                onLikeClick={handleCardLike}
-                onCardClick={handleCardClick}
-                onEditProfile={handleEditProfileClick}
-                onAddPlace={handleAddPlaceClick}
-                onEditAvatar={handleEditAvatarClick}
-                onLoginOut={handleLoginOut}
-              />
+              {loggedIn ?
+                <ProtectedRoute
+                  exact
+                  path="/"
+                  loggedIn={loggedIn}
+                  component={Main}
+                  cards={dataCards}
+                  email={email}
+                  onTrashClick={handleCardDelete}
+                  onLikeClick={handleCardLike}
+                  onCardClick={handleCardClick}
+                  onEditProfile={handleEditProfileClick}
+                  onAddPlace={handleAddPlaceClick}
+                  onEditAvatar={handleEditAvatarClick}
+                  onLoginOut={handleLoginOut}
+                /> :
+                <>
+                  <Route path="/sign-up">
+                    <Registration
+                      onInputEmail={handleEmailChange}
+                      onInputPassword={handlePasswordChange}
+                      onRegistrationSubmit={handleRegistrationSubmit}
+                      isRegister={isRegister}
+                      onClose={handleCloseTooltip} />
+                  </Route>
+                  <Route path="/sign-in">
+                    <Login
+                      onLoginSubmit={handleLoginSubmit}
+                    />
+                  </Route>
+                </>
+              }
               <Route>
                 {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
               </Route>
